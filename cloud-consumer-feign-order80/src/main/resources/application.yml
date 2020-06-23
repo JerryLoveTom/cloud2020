@@ -1,0 +1,24 @@
+server:
+  port: 80
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      # defaultZone: http://localhost:7001/eureka  # 单机版
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka # 集群版
+  instance:
+    instance-id: order80 # 主机名
+    prefer-ip-address: true # 是否显示IP
+
+# 由于feign天生就集成了ribbon，当我们使用feign进行请求的时候，其实也通过了ribbon进行了负载均衡，这个时候，请求就是通过ribbon，所以我们需要设置的就是它
+
+# 设置feign客户端超时时间（openfeign默认支持ribbon）
+ribbon:
+  # 指的时建立所有连接的时间，适用于网络正常的情况下，两段连接所需要耗费的时间。
+  ReadTimeout: 5000
+  # 指的是建立连接后，从服务器读取到可用资源所需要花费的时间
+  ConnectTimeout: 5000
+logging:
+  level:
+    #feign日志以什么级别监控哪个接口
+    com.atguigu.springcloud.service.PaymentFeignService: debug
